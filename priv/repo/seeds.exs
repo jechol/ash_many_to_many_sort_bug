@@ -14,17 +14,21 @@ Ash.Changeset.for_create(Post, :create,
 )
 |> Ash.create!()
 
+expected_tags = ["tag1", "tag3", "tag5", "tag4", "tag2"]
+
 # Target post
 Ash.Changeset.for_create(Post, :create,
   text: "post",
-  tags: ["tag1", "tag3", "tag5", "tag4", "tag2"]
+  tags: expected_tags
 )
 |> Ash.create!()
 |> tap(fn post ->
   require Logger
-  Logger.warning("Target post id is #{post.id}.")
-  Logger.error("Below query is not working as expected.")
+  Logger.error("Below query is not working as expected. (post.id: #{post.id})")
   Logger.configure(level: :debug)
+  post = Ash.load!(post, :tags)
 
-  Ash.load!(post, :tags)
+  Logger.error("Expected tags are #{inspect(expected_tags)}.")
+  result_tags = post.tags |> Enum.map(& &1.id)
+  Logger.error("Result tags are #{inspect(result_tags)}.")
 end)
