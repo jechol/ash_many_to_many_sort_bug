@@ -1,6 +1,6 @@
 import Config
 
-config :ai_personal_chef, ecto_repos: [AiPersonalChef.Repo]
+config :ai_personal_chef, ecto_repos: [AiPersonalChef.Repo], ash_domains: [MyDomain]
 
 config :ash,
   allow_forbidden_field_for_relationships_by_default?: true,
