@@ -9,8 +9,12 @@ defmodule MyDomain.PostTag do
     repo AiPersonalChef.Repo
   end
 
+  actions do
+    defaults [:read, :destroy, create: :*, update: :*]
+  end
+
   attributes do
-    attribute :position, :integer
+    attribute :position, :integer, public?: true
   end
 
   relationships do

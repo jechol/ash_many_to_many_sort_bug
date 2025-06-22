@@ -11,6 +11,26 @@ defmodule MyDomain.Post do
     repo AiPersonalChef.Repo
   end
 
+  actions do
+    defaults [:read, :destroy]
+
+    create :create do
+      accept :*
+      argument :tags, {:array, :string}, allow_nil?: false
+
+      change &manage_tags/2
+    end
+
+    update :update do
+      require_atomic? false
+
+      accept :*
+      argument :tags, {:array, :string}, allow_nil?: false
+
+      change &manage_tags/2
+    end
+  end
+
   attributes do
     integer_primary_key :id
     attribute :text, :string
@@ -25,5 +45,17 @@ defmodule MyDomain.Post do
       join_relationship :post_tags
       sort [Ash.Sort.expr_sort(post_tags.position)]
     end
+  end
+
+  defp manage_tags(cs, _ctx) do
+    tags = cs |> Ash.Changeset.get_argument(:tags)
+
+    post_tags =
+      tags
+      |> Enum.with_index(1)
+      |> Enum.map(fn {tag, index} -> %{tag_id: tag, position: index} end)
+
+    cs
+    |> Ash.Changeset.manage_relationship(post_tags, :post_tags, type: :direct_control)
   end
 end

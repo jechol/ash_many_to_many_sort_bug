@@ -9,6 +9,10 @@ defmodule MyDomain.Tag do
     repo AiPersonalChef.Repo
   end
 
+  actions do
+    defaults [:read, :destroy, create: :*, update: :*]
+  end
+
   attributes do
     attribute :id, :string, allow_nil?: false, primary_key?: true
   end
