@@ -5,6 +5,7 @@ defmodule AiPersonalChef.Application do
 
   @impl true
   def start(_type, _args) do
+    AiPersonalChef.Repo.install_ecto_dev_logger()
     children = [AiPersonalChef.Repo]
 
     opts = [strategy: :one_for_one, name: AiPersonalChef.Supervisor]

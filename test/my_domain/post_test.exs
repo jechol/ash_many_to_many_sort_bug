@@ -18,7 +18,7 @@ defmodule MyDomain.PostTest do
           text: "post",
           tags: ["tag1", "tag3", "tag5", "tag4", "tag2"]
         )
-        |> Ash.create!(load: [:post_tags, :tags])
+        |> Ash.create!()
 
       assert [
                %{position: 1, tag_id: "tag1"},
@@ -26,10 +26,10 @@ defmodule MyDomain.PostTest do
                %{position: 3, tag_id: "tag5"},
                %{position: 4, tag_id: "tag4"},
                %{position: 5, tag_id: "tag2"}
-             ] = post.post_tags
+             ] = Ash.load!(post, :post_tags).post_tags
 
       assert [%{id: "tag1"}, %{id: "tag3"}, %{id: "tag5"}, %{id: "tag4"}, %{id: "tag2"}] =
-               post.tags
+               Ash.load!(post, :tags).tags
     end
   end
 
@@ -50,7 +50,7 @@ defmodule MyDomain.PostTest do
           text: "post",
           tags: ["tag1", "tag3", "tag5", "tag4", "tag2"]
         )
-        |> Ash.create!(load: [:post_tags, :tags])
+        |> Ash.create!()
 
       assert [
                %{position: 1, tag_id: "tag1"},
@@ -58,10 +58,15 @@ defmodule MyDomain.PostTest do
                %{position: 3, tag_id: "tag5"},
                %{position: 4, tag_id: "tag4"},
                %{position: 5, tag_id: "tag2"}
-             ] = post.post_tags
+             ] = Ash.load!(post, :post_tags).post_tags
+
+      # To see SQL queries
+      Logger.configure(level: :debug)
 
       assert [%{id: "tag1"}, %{id: "tag3"}, %{id: "tag5"}, %{id: "tag4"}, %{id: "tag2"}] =
-               post.tags
+               Ash.load!(post, :tags).tags
+
+      Logger.configure(level: :info)
     end
   end
 end

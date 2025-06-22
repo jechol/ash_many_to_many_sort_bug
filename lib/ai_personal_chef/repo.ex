@@ -15,4 +15,8 @@ defmodule AiPersonalChef.Repo do
     # Add extensions here, and the migration generator will install them.
     ["ash-functions"]
   end
+
+  def install_ecto_dev_logger() do
+    Ecto.DevLogger.install(__MODULE__)
+  end
 end
