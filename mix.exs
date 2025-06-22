@@ -36,7 +36,12 @@ defmodule AiPersonalChef.MixProject do
   end
 
   defp aliases() do
-    [test: ["ash.setup --quiet", "test"], setup: "ash.setup"]
+    [
+      test: ["ash.setup --quiet", "test"],
+      setup: ["deps.get", "ash.setup", "run priv/repo/seeds.exs"],
+      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "ecto.reset": ["ecto.drop", "ecto.setup"]
+    ]
   end
 
   defp elixirc_paths(:test),
