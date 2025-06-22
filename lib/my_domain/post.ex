@@ -33,7 +33,7 @@ defmodule MyDomain.Post do
 
   attributes do
     integer_primary_key :id
-    attribute :text, :string
+    attribute :text, :string, public?: true
   end
 
   relationships do
@@ -56,6 +56,6 @@ defmodule MyDomain.Post do
       |> Enum.map(fn {tag, index} -> %{tag_id: tag, position: index} end)
 
     cs
-    |> Ash.Changeset.manage_relationship(post_tags, :post_tags, type: :direct_control)
+    |> Ash.Changeset.manage_relationship(:post_tags, post_tags, type: :direct_control)
   end
 end

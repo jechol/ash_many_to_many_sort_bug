@@ -21,11 +21,13 @@ defmodule MyDomain.PostTag do
     belongs_to :post, MyDomain.Post,
       allow_nil?: false,
       primary_key?: true,
-      attribute_type: :integer
+      attribute_type: :integer,
+      public?: true
 
     belongs_to :tag, MyDomain.Tag,
       allow_nil?: false,
       primary_key?: true,
-      attribute_type: :string
+      attribute_type: :string,
+      public?: true
   end
 end

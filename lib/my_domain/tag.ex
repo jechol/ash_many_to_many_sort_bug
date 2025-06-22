@@ -14,7 +14,12 @@ defmodule MyDomain.Tag do
   end
 
   attributes do
-    attribute :id, :string, allow_nil?: false, primary_key?: true
+    attribute :id, :string do
+      primary_key? true
+      allow_nil? false
+      writable? true
+      public? true
+    end
   end
 
   relationships do
